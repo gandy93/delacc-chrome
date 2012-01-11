@@ -2,6 +2,7 @@
 	"name" : "Delicious Accessor",
 	"version" : "0.1",
 	"description" : "An easy and quick access to Delicious.com bookmarks.",
+	"options_page" : "options.html",
 	"browser_action" : {
 		"default_icon" : "icon.png",
 		"popup" : "delacc.html"

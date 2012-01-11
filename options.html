@@ -1,0 +1,39 @@
+<html>
+	<head><title>Delicious Accessor Extension Options</title></head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		function saveOptions(){
+			var user = $("#username").val();
+			var pass = $("#password").val();
+
+			localStorage["username"] = user;
+			localStorage["password"] = pass;
+
+			$("#status").text("Options saved.");
+			setTimeout(function() {
+				$("#status").text("");
+			}, 750);
+		}
+
+		function restoreOptions() {
+			if("username" in localStorage) { $("#username").val(localStorage["username"]); }
+			if("password" in localStorage) { $("#password").val(localStorage["password"]); }			
+		}
+	</script>
+	<body onload="restoreOptions()">
+		<form>
+			<fieldset>
+				<legend>Delicious.com Account's Information</legend>
+
+				<label for="username">Username:</label>
+				<input type="text" name="username" id="username" />
+				<br />
+
+				<label for="password">Password:</label>
+				<input type="password" name="password" id="password" />
+			</fieldset>
+			<button onclick="saveOptions(); return false;">Save</button>
+			<span id="status"></span>
+		</form>
+	</body>
+</html>
