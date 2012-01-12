@@ -14,4 +14,45 @@
 	</body>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="script.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var user = localStorage["username"];
+			var pass = localStorage["password"];
+
+			// Check if settings are set
+			if(user == "undefined" || user == "" || pass == "undefined" || pass == "") 
+			{
+			   	$('#content').empty().append('<p>Error! You have not specified the account information in the <a href="chrome://settings/extensions">settings</a>.</p>');
+			   	$('a').click(function(){
+			   		chrome.tabs.create({'url' : $(this).attr('href')});
+			   		return false;
+			   	});
+			   	$('#container').css({'min-width' : '300px'});
+			   	return false;
+			}
+
+			// Check if settings are correct
+			$.ajax({
+				url : 'https://api.del.icio.us/v1/posts/update',
+				contentType: 'application/xml; charset=utf-8',
+				dataType : 'xml',
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader('Authorization', 'Basic ' + window.btoa(unescape(encodeURIComponent(user+':'+pass))));
+				},
+				success : function(xml) {
+					var reply = $(xml).find('update');
+					if($(reply).attr('code') == '200') {
+						renderMenu();
+					} else {
+						$('#content').empty().append('<p>An unexpected failure! Error code '+$(reply).attr('code')+': '+$(reply).attr('message')+'</p>');
+						$('#container').css({'min-width' : '300px'});
+					}
+				},
+				error : function(xml, msg, error) {
+					$('#content').empty().append('<p>An unexpected failure! '+msg+' - '+error+'.</p>');
+					$('#container').css({'min-width' : '300px'});
+				}
+			});
+		});
+	</script>
 </html>

@@ -10,8 +10,8 @@
 	"permissions" : [
 		"http://delicious.com",
 		"http://delicious.com/*",
-		"http://api.del.icio.us",
-		"http://api.del.icio.us/*"
+		"https://api.del.icio.us",
+		"https://api.del.icio.us/*"
 	],
 	"icons" : {
 		"16" : "icon16.png",
