@@ -3,12 +3,31 @@ function renderMenu() {
 	$('#list').empty();
 
 	$('#list').append('<li><a class="openable" href="http://delicious.com/' + localStorage['username'] + '">Delicious.com Profile</a></li>');
-	$('#list').append('<li><a onclick="renderTags()" href="">Browse by tag</a></li>');
+	$('#list').append('<li><a onclick="renderTags()" href="#">Browse by tag</a></li>');
 	$('#list').append('<li><a onclick="renderStacks()" href="">Browse by stack</a></li>');
 	$('#list').append('<hr />');
 	$('#list').append('<li><a onclick="renderInsertForm()" href="">Add to my bookmarks</a></li>');
 
 	openLinksNewTab('.openable');
+}
+
+function renderTags() {
+	clear();
+	$('#list').append('<li><a onclick="renderMenu()" href="">Menu</a></li>');
+	$('#list').append('<hr />');
+
+	api('https://api.del.icio.us/v1/tags/get', function(xml) {
+		$(xml).find('tag').each(function() {
+			var tag = $(this).attr('tag');
+			var link = $('<a href="#">'+tag+'</a>').click(function() {
+				renderBookmarks([$(this).val()]);
+				false;
+			});
+			var item = $('<li></li>');
+			item.append(link);
+			$('#list').append(item);
+		});
+	});
 }
 
 
