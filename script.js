@@ -20,13 +20,49 @@ function renderTags() {
 		$(xml).find('tag').each(function() {
 			var tag = $(this).attr('tag');
 			var link = $('<a href="#">'+tag+'</a>').click(function() {
-				renderBookmarks([$(this).val()]);
-				false;
+				var tags = [$(this).text()];
+				renderBookmarks(tags);
+				return false;
 			});
 			var item = $('<li></li>');
 			item.append(link);
 			$('#list').append(item);
 		});
+	});
+}
+
+function renderBookmarks(tags, stack) {
+	clear();
+	if(stack === undefined || stack == false) {
+		$('#list').append('<li><a onclick="renderTags()" href="#">Back</a></li>');
+	} else {
+		$('#list').append('<li><a onclick="renderStacks()" href="#">Back</a></li>');
+	}
+	$('#list').append('<hr />');
+
+	say('Loading...');
+
+	for(var i in tags) {
+		api('https://api.del.icio.us/v1/posts/all?&tag='+tags[i], function(xml) {
+			$(xml).find('post').each(function() {
+				var link = $('<a href="'+$(this).attr('href')+'">'+$(this).attr('description')+'</a>').click(function() {
+					chrome.tabs.create({'url' : $(this).attr('href')});
+					return false;
+				});
+				var item = $('<li></li>');
+				item.append(link);
+				$('#list').append(item);
+			});
+		});
+		delay(5000);
+	}
+
+	$('#content').empty().append('<input type="text" id="search" />');
+	$('#search').keypress(function(event) {
+		if ( event.which == 13 ) {
+    		event.preventDefault();
+    		quickSearch($('#search').val());
+		}
 	});
 }
 
@@ -67,4 +103,12 @@ function api(url, success, error) {
 function say(str) {
 	$('#content').empty();
 	$('#content').empty().append('<p>'+str+'.</p>');
+}
+
+function delay(ms) {
+	var wait = true;
+	setTimeout(function(wait){
+		wait = false;
+	}, ms);
+	while(wait) { break; }
 }
