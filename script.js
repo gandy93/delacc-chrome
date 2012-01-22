@@ -57,13 +57,12 @@ function renderBookmarks(tags, stack) {
 		delay(5000);
 	}
 
-	$('#content').empty().append('<input type="text" id="search" />');
+	$('#content').empty().append('<input type="text" id="search" placeholder="Search..." />');
 	$('#search').keypress(function(event) {
 		if ( event.which == 13 ) {
     		event.preventDefault();
-    		quickSearch($('#search').val());
 		}
-	});
+	}).keyup(function(event) { quickSearch($('#search').val()); });
 }
 
 function quickSearch(query) {
