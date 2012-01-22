@@ -49,7 +49,7 @@ function renderBookmarks(tags, stack) {
 					chrome.tabs.create({'url' : $(this).attr('href')});
 					return false;
 				});
-				var item = $('<li></li>');
+				var item = $('<li class="bookmark"></li>');
 				item.append(link);
 				$('#list').append(item);
 			});
@@ -66,6 +66,17 @@ function renderBookmarks(tags, stack) {
 	});
 }
 
+function quickSearch(query) {
+	$(".bookmark").each(function() {
+		var title = $(this).find('a').text();
+		var re = new RegExp(query, 'i');
+		if(title.search(re) != -1) {
+			$(this).show();
+		} else {
+			$(this).hide();
+		}
+	});
+}
 
 // HELPERS
 
