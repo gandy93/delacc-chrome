@@ -11,7 +11,8 @@
 		"http://delicious.com",
 		"http://delicious.com/*",
 		"https://api.del.icio.us",
-		"https://api.del.icio.us/*"
+		"https://api.del.icio.us/*",
+		"tabs"
 	],
 	"icons" : {
 		"16" : "icon16.png",

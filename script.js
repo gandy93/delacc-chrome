@@ -6,7 +6,7 @@ function renderMenu() {
 	$('#list').append('<li><a onclick="renderTags()" href="#">Browse by tag</a></li>');
 	$('#list').append('<li><a onclick="renderStacks()" href="">Browse by stack</a></li>');
 	$('#list').append('<hr />');
-	$('#list').append('<li><a onclick="renderInsertForm()" href="">Add to my bookmarks</a></li>');
+	$('#list').append('<li><a onclick="renderInsertForm()" href="#">Add/edit the current webpage</a></li>');
 
 	openLinksNewTab('.openable');
 }
@@ -70,6 +70,19 @@ function renderBookmarks(tags, stack) {
     		event.preventDefault();
 		}
 	}).keyup(function(event) { quickSearch($('#search').val()); });
+}
+
+function renderInsertForm() {
+	chrome.tabs.getSelected(null, function(tab) {
+		f = 'http://www.delicious.com/save?url=' + encodeURIComponent(tab.url) + '&title=' + encodeURIComponent(tab.title) + '&v=6&';
+		a = function() {
+			var center = 'top=' + (screen.height/2 - 630/2) + ',left=' + (screen.width/2 - 710/2);
+		    if(!window.open(f+'noui=1&jump=doclose','deliciousuiv6','location=1,links=0,scrollbars=0,toolbar=0,titlebar=0,width=710,height=660,'+center)) {
+			    tab.url = f + 'jump=yes';
+			}
+		};
+		a();
+	});
 }
 
 function quickSearch(query) {
