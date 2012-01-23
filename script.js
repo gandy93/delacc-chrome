@@ -24,11 +24,18 @@ function renderTags() {
 				renderBookmarks(tags);
 				return false;
 			});
-			var item = $('<li></li>');
+			var item = $('<li class="item"></li>');
 			item.append(link);
 			$('#list').append(item);
 		});
 	});
+
+	$('#content').empty().append('<input type="text" id="search" placeholder="Search..." />');
+	$('#search').keypress(function(event) {
+		if ( event.which == 13 ) {
+    		event.preventDefault();
+		}
+	}).keyup(function(event) { quickSearch($('#search').val()); });
 }
 
 function renderBookmarks(tags, stack) {
@@ -49,7 +56,7 @@ function renderBookmarks(tags, stack) {
 					chrome.tabs.create({'url' : $(this).attr('href')});
 					return false;
 				});
-				var item = $('<li class="bookmark"></li>');
+				var item = $('<li class="item"></li>');
 				item.append(link);
 				$('#list').append(item);
 			});
@@ -66,7 +73,7 @@ function renderBookmarks(tags, stack) {
 }
 
 function quickSearch(query) {
-	$(".bookmark").each(function() {
+	$(".item").each(function() {
 		var title = $(this).find('a').text();
 		var re = new RegExp(query, 'i');
 		if(title.search(re) != -1) {
