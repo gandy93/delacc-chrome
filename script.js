@@ -4,7 +4,7 @@ function renderMenu() {
 
 	$('#list').append('<li><a class="openable" href="http://delicious.com/' + localStorage['username'] + '">Delicious.com Profile</a></li>');
 	$('#list').append('<li><a onclick="renderTags()" href="#">Browse by tag</a></li>');
-	$('#list').append('<li><a onclick="renderStacks()" href="">Browse by stack</a></li>');
+	//$('#list').append('<li><a onclick="renderStacks()" href="">Browse by stack</a></li>'); //@TODO
 	$('#list').append('<hr />');
 	$('#list').append('<li><a onclick="renderInsertForm()" href="#">Add/edit the current webpage</a></li>');
 
