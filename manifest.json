@@ -1,3 +1,6 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
 {
 	"name" : "Delicious Accessor",
 	"version" : "0.1",
@@ -10,8 +13,9 @@
 	"permissions" : [
 		"http://delicious.com",
 		"http://delicious.com/*",
-		"http://api.del.icio.us",
-		"http://api.del.icio.us/*"
+		"https://api.del.icio.us",
+		"https://api.del.icio.us/*",
+		"tabs"
 	],
 	"icons" : {
 		"16" : "icon16.png",
